@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Weakmap</title>
+</head>
+<body>
+<div class="abc">Text Text Text Text Text Text</div>
+<button onclick="toggle()">button</button>
+<div class="input">
+  <input type="text" name="name">name
+  <input type="text" name="age">age
+  <button onclick="getPerson()">get</button>
+</div>  
+<script src="./js/weakmap.js"></script>
+<script>
+  var worker = new Worker('./js/worker.js');
+  var startTime;
+  var data = new Array(10000000);
+  // var data = new Array(100);
+
+  worker.addEventListener('message', function(e) {
+    if(e.data === 'ready') {
+      startTime = performance.now();
+      worker.postMessage(data);
+      console.log(2)
+    } else {
+      console.log(4)
+      console.log(performance.now() - startTime);
+    }
+  });
+
+  worker.postMessage('ready');
+</script>
+</body>
+</html>
